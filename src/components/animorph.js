@@ -1,7 +1,13 @@
 import rgba from 'rgba-convert';
 
 let ball;
-let targetStyles;
+let targetStyles = {
+  top: window.innerHeight - 50,
+  left: 20,
+  backgroundColor: 'red',
+  width: 20,
+  height: 20,
+};;
 
 export function animorph (source, target) {
   if (requestId) window.cancelAnimationFrame(requestId);
@@ -46,21 +52,15 @@ Color.prototype.asRgbCss = function () {
   return "rgb(" + this.r + ", " + this.g + ", " + this.b + ")";
 }
 
-const LinearColorInterpolator = {
-  // left and right are colors that you're aiming to find
-  // a color between. Percentage (0-100) indicates the ratio
-  // of right to left. Higher percentage means more right,
-  // lower means more left.
-  findColorBetween: function (left, right, progress) {
-    const newColor = {};
-    const components = ["r", "g", "b"];
-    for (var i = 0; i < components.length; i++) {
-      const c = components[i];
-      newColor[c] = Math.round(left[i] + (right[i] - left[i]) * progress);
-    }
-    return new Color(newColor);
-  }
+function findColorBetween (previous, next, progress) {
+  const newColor = {};
+  const components = ["r", "g", "b"];
+  components.forEach((c, i) => {
+    newColor[c] = Math.round(previous[i] + (next[i] - previous[i]) * progress);
+  })
+  return new Color(newColor);
 }
+
 
 export const tick = now => {
   time.elapsed = now - time.start;
@@ -70,10 +70,7 @@ export const tick = now => {
   oldRadius = Number(oldRadius.split('%')[0]);
   oldBG = rgba(oldBG);
   const endBG = rgba(targetStyles.backgroundColor);
-  console.log('oldbg', oldBG);
-  console.log('endBG', endBG);
-  const bgColor = LinearColorInterpolator.findColorBetween(oldBG, endBG, progress).asRgbCss();
-  console.log('interpolated bgColor', bgColor);
+  const bgColor = findColorBetween(oldBG, endBG, progress).asRgbCss();
   const nextTop = easeInQuad(time.elapsed, top, targetStyles.top - top, time.total);
   const nextLeft = easeInQuad(time.elapsed, left, targetStyles.left - left, time.total);
   const nextWidth = easeInQuad(time.elapsed, width, targetStyles.width - width, time.total);
@@ -99,7 +96,7 @@ export function createCounterBall() {
 }
 
 export function positionCounterBallOnSource(source) {
-  var { width, height, top, left } = source.getBoundingClientRect();
+  const { width, height, top, left } = source.getBoundingClientRect();
   ball.id = 'countBall';
   setStylesOnElement({
     ...source.style,
@@ -115,14 +112,11 @@ function setStylesOnElement(styles, element) {
   Object.assign(element.style, styles);
 }
 
-function setTargetStyles(target = ball) {
-  targetStyles = {
-    top: window.innerHeight - 50,
-    left: 20,
-    backgroundColor: 'red',
-    width: 20,
-    height: 20,
-  };
+function setTargetStyles(target) {
+  if (target) {
+    targetStyles = target.style;
+  }
+  // otherwise we assume you're trying to create a notification animation
 }
 
 export default animorph;
