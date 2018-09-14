@@ -14,6 +14,7 @@ class App extends Component {
         </header>
         <GreenSquare />
         <BlueOval />
+        {/* should always be here, and should only be rendered if the element is currently morphing */}
       </div>
     );
   }

@@ -6,8 +6,8 @@
     "popmotion": "8.3.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "react-morph": "^0.3.6",
-    "react-scripts": "1.1.5"
+    "react-scripts": "1.1.5",
+    "rgba-convert": "^0.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

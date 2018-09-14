@@ -1,29 +1,26 @@
-import React from 'react';
-import ReactMorph from 'react-morph';
-import CountBall from './CountBall.js';
+import React, { Component } from 'react';
+import { animorph } from './animorph.js';
 
-export default function GreenSquare() {
-  return (
-    <ReactMorph>
-      {
-        ({ from, to, fadeIn, fadeOut, go, hide }) => (
-          <div>
-            <div onClick={() => go(1)} >
-              <h3
-                {...from("countBall")}
-                style={{
-                  display: "inline-block",
-                  background: 'green',
-                  width: 150,
-                  height: 150,
-                  color: 'white',
-                }}>
-                Green Square
-              </h3>
-            </div>
-            <CountBall to={to} />
-          </div>
-        )}
-    </ReactMorph>
-  );
+export default class GreenSquare extends Component {
+  handleClick = (e) => {
+    animorph(e.target);
+  }
+
+  render() {
+    return (
+      <div>
+        <h3
+          onClick={ this.handleClick }
+          style={{
+            display: "inline-block",
+            background: '#003300',
+            width: 150,
+            height: 150,
+            color: 'white',
+          }}>
+          Green Square
+        </h3>
+      </div>
+    );
+  }
 }
