@@ -19,10 +19,10 @@ handleClick = (e) => { animorph(e.target) }
 ```
 Or with a ref
 ``` js
-  greenSquareRef = React.createRef();
+greenSquareRef = React.createRef();
 
-  handleClick = (e) => {
-    animorph(this.greenSquareRef.current);
-  }
+handleClick = (e) => {
+  animorph(this.greenSquareRef.current);
+}
 ```
 
