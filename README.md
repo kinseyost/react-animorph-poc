@@ -17,5 +17,12 @@ Takes a `source`, and optional `target` and animates the source turning into the
 ``` js
 handleClick = (e) => { animorph(e.target) }
 ```
+Or with a ref
+``` js
+  greenSquareRef = React.createRef();
 
+  handleClick = (e) => {
+    animorph(this.greenSquareRef.current);
+  }
+```
 

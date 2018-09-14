@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { animorph } from './animorph.js';
 
 export default class GreenSquare extends Component {
+  greenSquareRef = React.createRef();
+
   handleClick = (e) => {
-    animorph(e.target);
+    animorph(this.greenSquareRef.current);
   }
 
   render() {
     return (
       <div>
         <h3
+          ref={ this.greenSquareRef }
           onClick={ this.handleClick }
           style={{
             display: "inline-block",
